@@ -1,0 +1,12 @@
+[submodule "next-step/java-bowling"]
+	path = next-step/java-bowling
+	url = https://github.com/dailyworker/java-bowling
+[submodule "next-step/java-ladder"]
+	path = next-step/java-ladder
+	url = https://github.com/dailyworker/java-ladder
+[submodule "next-step/java-lotto"]
+	path = next-step/java-lotto
+	url = https://github.com/dailyworker/java-lotto
+[submodule "next-step/java-racingcar"]
+	path = next-step/java-racingcar
+	url = https://github.com/dailyworker/java-racingcar
