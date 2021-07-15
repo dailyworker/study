@@ -1,28 +1,28 @@
 package io.dailyworker.framework.controller;
 
-import io.dailyworker.framework.aop.CustomRequestLocal;
+import io.dailyworker.framework.aop.CustomHttpRequestLocal;
 import io.dailyworker.framework.aop.CustomRequest;
 
-public class CustomHttpRequestContext {
+public class CustomRequestContext {
 
-  private static ThreadLocal<CustomRequest> threadLocal = new ThreadLocal<>();
+  private static final ThreadLocal<CustomRequest> threadLocal = new ThreadLocal<>();
 
-  static void generateThread(CustomRequest customRequest) {
+  static void load(CustomRequest customRequest) {
     threadLocal.set(customRequest);
   }
 
-  static void removeThread() {
+  static void unload() {
     threadLocal.remove();
   }
 
-  public static CustomRequest getCustomServletHttpRequest() {
+  public static CustomRequest get() {
     CustomRequest customRequest = threadLocal.get();
 
     if(customRequest != null) {
       return customRequest;
     }
-    CustomRequestLocal customRequestLocal = new CustomRequestLocal();
-    generateThread(customRequestLocal);
-    return customRequestLocal;
+    CustomHttpRequestLocal customHttpRequestLocal = new CustomHttpRequestLocal();
+    load(customHttpRequestLocal);
+    return customHttpRequestLocal;
   }
 }
