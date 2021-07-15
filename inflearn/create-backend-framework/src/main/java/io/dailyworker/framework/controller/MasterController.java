@@ -1,5 +1,6 @@
 package io.dailyworker.framework.controller;
 
+import io.dailyworker.framework.aop.CustomHttpRequest;
 import io.dailyworker.framework.model.Welcome;
 import java.io.IOException;
 import javax.servlet.RequestDispatcher;
@@ -16,10 +17,20 @@ public class MasterController extends HttpServlet {
   protected void service(HttpServletRequest req, HttpServletResponse resp)
       throws ServletException, IOException {
 
-    Welcome welcome = new Welcome();
-    String jspUrl = welcome.execute(req);
+    CustomHttpRequest customHttpRequest = new CustomHttpRequest(req);
+    CustomRequestContext.load(customHttpRequest); // 이 부분을 안줄 시 CustomHttpRequestLocal로 동작한다.
 
-    RequestDispatcher dispatcher = req.getRequestDispatcher(jspUrl);
-    dispatcher.forward(req, resp);
+    try {
+      Welcome welcome = new Welcome();
+      String jspUrl = welcome.execute();
+
+      RequestDispatcher dispatcher = req.getRequestDispatcher(jspUrl);
+      dispatcher.forward(req, resp);
+
+    } catch (Exception e) {
+      e.printStackTrace();
+    } finally {
+      CustomRequestContext.unload();
+    }
   }
 }
