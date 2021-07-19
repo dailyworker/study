@@ -10,7 +10,7 @@ import static org.sqlite.JDBC.createConnection;
 
 public class SQLiteJdbcTransaction extends Transaction {
 
-    public static final String JDBC_SQLITE_DB_FRAMEWORK_DB = "jdbc:sqlite:~/db/framework.db";
+    public static final String JDBC_SQLITE_DB_FRAMEWORK_DB = "jdbc:sqlite:~/study-workspace/db/framework.db";
 
     @Override
     protected Connection generateConnection() throws SQLException {
