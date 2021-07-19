@@ -39,9 +39,9 @@ public class MasterController extends HttpServlet {
       e.printStackTrace();
       try {
         TransactionContext.rollback();
-      } catch (SQLException e) {
-        e.printStackTrace();
-        throw new ServletException(e.getMessage());
+      } catch (SQLException ex) {
+        ex.printStackTrace();
+        throw new ServletException(ex.getMessage());
       }
     } finally {
       TransactionContext.unload();
