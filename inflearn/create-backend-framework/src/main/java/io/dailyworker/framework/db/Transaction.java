@@ -7,6 +7,7 @@ public abstract class Transaction {
     private Connection conn = null;
     private final ArrayList<Statement> statements = new ArrayList<>();
     private final ArrayList<ResultSet> resultSets = new ArrayList<>();
+    private boolean setAutoCommit = false;
 
     protected abstract Connection generateConnection() throws SQLException;
 
@@ -38,22 +39,30 @@ public abstract class Transaction {
         this.conn.rollback();
     }
 
-    PreparedStatement preparedStatement(String sql) throws SQLException {
+    public PreparedStatement preparedStatement(String sql) throws SQLException {
         PreparedStatement preparedStatement = connection().prepareStatement(sql);
         statements.add(preparedStatement);
         return preparedStatement;
     }
 
-    Statement statement() throws SQLException {
+    public Statement statement() throws SQLException {
         Statement statement = connection().createStatement();
         statements.add(statement);
         return statement;
     }
 
-    ResultSet resultSet(PreparedStatement preparedStatement) throws SQLException {
+    public ResultSet resultSet(PreparedStatement preparedStatement) throws SQLException {
         ResultSet resultSet = preparedStatement.executeQuery();
         resultSets.add(resultSet);
         return resultSet;
+    }
+
+    public void setAutoCommitFalse() throws SQLException {
+        if(setAutoCommit) {
+            return;
+        }
+        setAutoCommit = true;
+        conn.setAutoCommit(false);
     }
 
     private Connection connection() throws SQLException {
@@ -93,5 +102,4 @@ public abstract class Transaction {
     private boolean hasConnection() {
         return conn == null;
     }
-
 }
