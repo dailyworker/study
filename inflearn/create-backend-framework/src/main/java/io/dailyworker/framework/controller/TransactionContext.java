@@ -11,7 +11,7 @@ public class TransactionContext {
 
     private TransactionContext() {}
 
-    public static Transaction thread() {
+    public static Transaction get() {
         Transaction transaction = THREAD_LOCAL.get();
         if(hasTransaction(transaction)) {
             return transaction;
