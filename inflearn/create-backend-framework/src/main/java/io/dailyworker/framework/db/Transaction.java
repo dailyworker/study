@@ -13,10 +13,10 @@ public abstract class Transaction {
 
     public void closeConnection() {
         try {
-            if (!hasConnection()) {
+            if (hasNotConnection()) {
                 return;
             }
-            this.close();
+            this.clearResource();
             conn.close();
         } catch (Exception e) {
             e.printStackTrace();
@@ -24,18 +24,18 @@ public abstract class Transaction {
     }
 
     public void commit() throws SQLException {
-        if(!hasConnection()) {
+        if(hasNotConnection()) {
             return;
         }
-        this.close();
+        this.clearResource();
         this.conn.commit();
     }
 
     public void rollback() throws SQLException {
-        if(!hasConnection()) {
+        if(hasNotConnection()) {
             return;
         }
-        this.close();
+        this.clearResource();
         this.conn.rollback();
     }
 
@@ -66,13 +66,13 @@ public abstract class Transaction {
     }
 
     private Connection connection() throws SQLException {
-        if(!hasConnection()) {
+        if(hasNotConnection()) {
             this.conn = generateConnection();
         }
         return conn;
     }
 
-    private void close() {
+    public void clearResource() {
         closeStatements();
         closeResultSets();
     }
@@ -99,7 +99,7 @@ public abstract class Transaction {
         statements.clear();
     }
 
-    private boolean hasConnection() {
+    public boolean hasNotConnection() {
         return conn == null;
     }
 }
