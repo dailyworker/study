@@ -9,7 +9,6 @@ public class Welcome {
 
     CustomRequest customRequest = CustomRequestContext.get();
 
-    //String name = customRequest.get("name").toString();
     String name = customRequest.getString("name");
     String msg = "WELCOME = " + name;
 
