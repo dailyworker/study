@@ -1,4 +1,4 @@
-package io.dailyworker.framework.model;
+package io.dailyworker.framework.view;
 
 import io.dailyworker.framework.aop.CustomRequest;
 import io.dailyworker.framework.controller.CustomRequestContext;

@@ -3,7 +3,7 @@ package io.dailyworker.framework.controller;
 import io.dailyworker.framework.aop.CustomHttpRequest;
 import io.dailyworker.framework.db.SQLitePoolTransaction;
 import io.dailyworker.framework.db.Transaction;
-import io.dailyworker.framework.model.Welcome;
+import io.dailyworker.framework.view.Welcome;
 import java.io.IOException;
 import java.sql.SQLException;
 import javax.servlet.RequestDispatcher;
