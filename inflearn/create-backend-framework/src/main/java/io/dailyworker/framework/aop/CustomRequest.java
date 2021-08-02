@@ -20,4 +20,16 @@ public abstract class CustomRequest implements Serializable {
     }
     return (String) obj;
   }
+
+  public boolean getBoolean(String key) {
+    Object obj = get(key);
+
+    if (obj == null) {
+      return false;
+    }
+    if(!(obj instanceof Boolean)) {
+      return false;
+    }
+    return (Boolean) obj;
+  }
 }
