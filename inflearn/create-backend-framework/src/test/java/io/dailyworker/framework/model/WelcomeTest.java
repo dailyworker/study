@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import io.dailyworker.framework.aop.CustomRequest;
 import io.dailyworker.framework.controller.CustomRequestContext;
+import io.dailyworker.framework.view.Welcome;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
