@@ -23,4 +23,10 @@ public class CustomHttpRequest extends CustomRequest {
     }
     return request.getParameter(key);
   }
+
+  @Override
+  public void setSession(Session session) {
+    request.setAttribute(KEY_SESSION, session);
+    request.getSession().setAttribute(KEY_SESSION, session);
+  }
 }
