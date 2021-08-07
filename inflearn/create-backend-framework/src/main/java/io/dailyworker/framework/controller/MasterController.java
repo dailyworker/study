@@ -2,6 +2,7 @@ package io.dailyworker.framework.controller;
 
 import io.dailyworker.framework.aop.CustomHttpRequest;
 import io.dailyworker.framework.aop.CustomRequest;
+import io.dailyworker.framework.aop.Session;
 import io.dailyworker.framework.db.SQLiteJdbcTransaction;
 import io.dailyworker.framework.db.Transaction;
 
@@ -23,8 +24,8 @@ public class MasterController extends HttpServlet {
   protected void service(HttpServletRequest req, HttpServletResponse resp)
       throws ServletException, IOException {
 
-    CustomHttpRequest customHttpRequest = new CustomHttpRequest(req);
-    CustomRequestContext.load(customHttpRequest); // 이 부분을 안줄 시 CustomHttpRequestLocal로 동작한다.
+    CustomHttpRequest customRequest = createCustomRequest(req);
+    CustomRequestContext.load(customRequest); // 이 부분을 안줄 시 CustomHttpRequestLocal로 동작한다.
 
     Transaction transaction = new SQLiteJdbcTransaction();
     TransactionContext.load(transaction);
@@ -78,5 +79,20 @@ public class MasterController extends HttpServlet {
     Method declaredMethod = instance.getClass().getDeclaredMethod(methodName);
 
     return (String) declaredMethod.invoke(instance);
+  }
+
+  private CustomHttpRequest createCustomRequest(HttpServletRequest request) {
+    CustomHttpRequest customHttpRequest = new CustomHttpRequest(request);
+
+    String key = request.getPathInfo().substring(1);
+    customHttpRequest.put(CustomRequest.KEY_SERVICE_KEY, key);
+
+    customHttpRequest.put(CustomRequest.KEY_REMOTE_ADDR, request.getRemoteAddr());
+
+    Object session = request.getSession().getAttribute(CustomRequest.KEY_SESSION);
+    if(session instanceof Session) {
+      customHttpRequest.put(CustomRequest.KEY_SESSION, session);
+    }
+    return customHttpRequest;
   }
 }
