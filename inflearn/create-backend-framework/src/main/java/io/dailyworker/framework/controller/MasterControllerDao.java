@@ -13,12 +13,16 @@ public class MasterControllerDao {
     CustomRequest controller(String key) throws SQLException {
         CustomRequest request = new CustomHttpRequestLocal();
         request.put("key", key);
-        return SqlRunner.getSqlRunner().getTable(EMP_FORM, request).getCustomRequest();
+        return SqlRunner.getSqlRunner()
+                .getTable(EMP_FORM, request)
+                .getCustomRequest();
     }
 
     CustomRequest view(String key) throws SQLException {
         CustomRequest request = new CustomHttpRequestLocal();
         request.put("key", key);
-        return SqlRunner.getSqlRunner().getTable(LOGIN_FORM, request).getCustomRequest();
+        return SqlRunner.getSqlRunner()
+                .getTable(LOGIN_FORM, request)
+                .getCustomRequest();
     }
 }

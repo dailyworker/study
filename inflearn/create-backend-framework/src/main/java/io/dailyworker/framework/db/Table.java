@@ -12,9 +12,9 @@ import java.util.LinkedHashMap;
 public class Table {
 
     private static final int MAX_RECORD_COUNT = 10000;
+    private final LinkedHashMap<String , BigDecimal> colNameMap = new LinkedHashMap<>();
+    private final ArrayList<String[]> records = new ArrayList<String[]>();
 
-    private LinkedHashMap<String , BigDecimal> colNameMap = new LinkedHashMap<>();
-    private ArrayList<String[]> records = new ArrayList<String[]>();
     private HashMap<String, String> addedData = null;
     private boolean isNextRecord = false;
 
@@ -136,7 +136,7 @@ public class Table {
     }
 
     public CustomRequest getCustomRequest() {
-        if(records.size() != 1) {
+        if(size() != 1) {
             throw new RuntimeException("record는 1개만 가질 수 있습니다.");
         }
         return getCustomRequest(0);

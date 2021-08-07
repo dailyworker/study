@@ -85,7 +85,7 @@ public class SqlRunner {
 
         String executeSql = sqlData.updatedSql;
         for(int i = 0; i < sqlData.param.size(); i++) {
-            String maybeKey = sqlData.param.get(i);
+            String maybeKey = sqlData.param.get(i).toLowerCase();
             String maybeData = request.getString(maybeKey);
 
             preparedStatement.setString(i+1, maybeData);
@@ -131,7 +131,6 @@ public class SqlRunner {
 
     public Table getTable(String key, CustomRequest customRequest) throws SQLException {
         Transaction transaction = TransactionContext.get();
-
         return getTable(transaction, customRequest, key);
     }
 
