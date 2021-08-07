@@ -64,6 +64,11 @@ public class MasterController extends HttpServlet {
     String className = controller.getString("CLASS_NAME");
     String methodName = controller.getString("METHOD_NAME");
 
+    boolean checkUrlAuth = checkUrlAuth(controller);
+    if(!checkUrlAuth) {
+      throw new Exception("접근 제한된 서비스 입니다.");
+    }
+
     @SuppressWarnings("rawtypes")
     Class clazz = Class.forName(className);
 
@@ -79,6 +84,28 @@ public class MasterController extends HttpServlet {
     Method declaredMethod = instance.getClass().getDeclaredMethod(methodName);
 
     return (String) declaredMethod.invoke(instance);
+  }
+
+  private static boolean checkUrlAuth(CustomRequest controller) throws Exception {
+    String hasSession = controller.getString("SESSION_CHECK_YN");
+
+    if(!"Y".equals(hasSession)) {
+      return true;
+    }
+
+    CustomRequest customRequest = CustomRequestContext.get();
+    Session session = customRequest.getSession();
+    String auth = controller.getString("AUTH");
+
+    if(session == null) {
+      throw new Exception();
+    }
+
+    if("".equals(auth)) {
+      return true;
+    }
+
+    return auth.contains(session.getAuth());
   }
 
   private CustomHttpRequest createCustomRequest(HttpServletRequest request) {
