@@ -1,12 +1,13 @@
 package io.dailyworker.framework.domain;
 
 import io.dailyworker.framework.aop.CustomRequest;
+import io.dailyworker.framework.controller.BizController;
 import io.dailyworker.framework.controller.CustomRequestContext;
 import io.dailyworker.framework.db.Table;
 
 import java.sql.SQLException;
 
-public class Employee {
+public class Employee implements BizController {
     public String select() throws SQLException {
 
         CustomRequest customRequest = CustomRequestContext.get();
