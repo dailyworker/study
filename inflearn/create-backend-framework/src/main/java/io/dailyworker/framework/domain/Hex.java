@@ -5,7 +5,7 @@ public class Hex {
     public static String byteToHex(byte[] bytes) {
         try {
             StringBuilder stringBuilder = new StringBuilder();
-            for (final byte x : b) {
+            for (final byte x : bytes) {
                 stringBuilder.append(String.format("%02x", x));
             }
             return stringBuilder.toString();

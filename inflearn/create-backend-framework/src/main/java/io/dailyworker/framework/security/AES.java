@@ -14,25 +14,25 @@ public class AES {
     private IvParameterSpec ivSpec = new IvParameterSpec(iv);
 
     public String encrypt(String planText) throws Exception {
-        byte[] plan = planText.getBytes();
+        byte[] planByte = planText.getBytes();
 
-        Cipher encrypter = Cipher.getInstance("ASE/CBC/PKCS5Padding");
+        Cipher encrypter = Cipher.getInstance("AES/CBC/PKCS5Padding");
         encrypter.init(1, keySpec, ivSpec);
-        byte[] enc = encrypter.doFinal(plan);
+        byte[] enc = encrypter.doFinal(planByte);
 
         return Hex.byteToHex(enc);
     }
 
     public String decrypt(String encryptedText) throws Exception {
-        byte[] enc = Hex.hexToByte(encryptedText);
+        byte[] encrypted = Hex.hexToByte(encryptedText);
 
-        Cipher decrypter = Cipher.getInstance("AES/CPC/PKCS5Padding");
+        Cipher decrypter = Cipher.getInstance("AES/CBC/PKCS5Padding");
         decrypter.init(2, keySpec, ivSpec);
-        byte[] plan = decrypter.doFinal(enc);
 
-        String plans = new String(plan);
+        assert encrypted != null;
+        byte[] planByte = decrypter.doFinal(encrypted);
 
-        return plans.trim();
+        String planBytes = new String(planByte);
+        return planBytes.trim();
     }
-
 }

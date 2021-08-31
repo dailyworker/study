@@ -24,7 +24,8 @@ public class DataCrypt {
         }
 
         CustomHttpRequestLocal customHttpRequestLocal = new CustomHttpRequestLocal();
-        customHttpRequestLocal.put("OPT", OTP);
+        customHttpRequestLocal.put("otp", OTP);
+
         CustomRequest cryptInfo = SqlRunner.getSqlRunner()
                 .getTable("DATACRYPT_01", customHttpRequestLocal)
                 .getCustomRequest();
@@ -69,9 +70,9 @@ public class DataCrypt {
             }
 
             byte[] encryptedText = Hex.hexToByte(encryptedBytes);
-            byte[] planText = crypt.decrypt(encryptedText);
+            byte[] planByteText = crypt.decrypt(encryptedText);
 
-            String decrypted = new String(planText);
+            String decrypted = new String(planByteText);
             return decrypted.trim();
         } catch (Exception e) {
             e.printStackTrace();
@@ -79,19 +80,19 @@ public class DataCrypt {
         }
     }
 
-    public String encrypt(String planText) throws Exception {
+    public String encrypt(String planByteText) throws Exception {
         try {
-            if(planText == null) {
+            if(planByteText == null) {
                 return null;
             }
 
-            planText = planText.trim();
+            planByteText = planByteText.trim();
 
-            if("".equals(planText)) {
+            if("".equals(planByteText)) {
                 return "";
             }
-            byte[] planBytes = planText.getBytes();
-            byte[] encrypt = crypt.encrypt(planBytes);
+            byte[] planByteBytes = planByteText.getBytes();
+            byte[] encrypt = crypt.encrypt(planByteBytes);
 
             return Hex.byteToHex(encrypt);
         } catch (Exception e) {

@@ -13,24 +13,24 @@ public class ARIAEcbZero implements Crypt {
     }
 
     @Override
-    public byte[] encrypt(byte[] planText) throws Exception {
-        if (planText == null) {
+    public byte[] encrypt(byte[] planByte) throws Exception {
+        if (planByte == null) {
             return null;
         }
 
-        if (planText.length == 0) {
-            return planText;
+        if (planByte.length == 0) {
+            return planByte;
         }
 
-        int encLength = planText.length;
+        int encLength = planByte.length;
 
-        if (planText.length % BLOCK_LENGTH != 0) {
-            encLength = (planText.length / BLOCK_LENGTH) * BLOCK_LENGTH + BLOCK_LENGTH;
+        if (planByte.length % BLOCK_LENGTH != 0) {
+            encLength = (planByte.length / BLOCK_LENGTH) * BLOCK_LENGTH + BLOCK_LENGTH;
         }
 
         byte[] enc = new byte[encLength];
 
-        int nPad = enc.length - planText.length;
+        int nPad = enc.length - planByte.length;
 
         int forCnt = enc.length / BLOCK_LENGTH;
 
@@ -41,11 +41,11 @@ public class ARIAEcbZero implements Crypt {
             byte[] encBlock = new byte[BLOCK_LENGTH];
 
             int length = BLOCK_LENGTH;
-            if (planText.length < length + srcPos) {
+            if (planByte.length < length + srcPos) {
                 length = BLOCK_LENGTH - nPad;
             }
 
-            System.arraycopy(planText, srcPos, encBlock, 0, length);
+            System.arraycopy(planByte, srcPos, encBlock, 0, length);
 
             for (int ii = length; ii < BLOCK_LENGTH; ii++) {
                 encBlock[ii] = (byte) 0;
@@ -71,35 +71,35 @@ public class ARIAEcbZero implements Crypt {
             return encryptedBytes;
         }
 
-        byte[] plan = new byte[encryptedBytes.length];
+        byte[] planByte = new byte[encryptedBytes.length];
 
         int forCnt = encryptedBytes.length / BLOCK_LENGTH;
 
         int srcPos = 0;
 
-        byte[] planBlock = null;
+        byte[] planByteBlock = null;
 
         for (int i = 0; i < forCnt; i++) {
 
             byte[] encBlock = new byte[BLOCK_LENGTH];
             System.arraycopy(encryptedBytes, srcPos, encBlock, 0, BLOCK_LENGTH);
 
-            planBlock = ariaEngine.decrypt(encBlock, 0);
+            planByteBlock = ariaEngine.decrypt(encBlock, 0);
 
-            System.arraycopy(planBlock, 0, plan, srcPos, BLOCK_LENGTH);
+            System.arraycopy(planByteBlock, 0, planByte, srcPos, BLOCK_LENGTH);
 
             srcPos = srcPos + encBlock.length;
 
         }
 
-        int cntPKCS7 = getPaddingCntZERO(planBlock);
+        int cntPKCS7 = getPaddingCntZERO(planByteBlock);
         if (cntPKCS7 == 0) {
-            return plan;
+            return planByte;
         }
 
-        byte[] newPlan = new byte[plan.length - cntPKCS7];
-        System.arraycopy(plan, 0, newPlan, 0, newPlan.length);
-        return newPlan;
+        byte[] newplanByte = new byte[planByte.length - cntPKCS7];
+        System.arraycopy(planByte, 0, newplanByte, 0, newplanByte.length);
+        return newplanByte;
     }
 
     private static int getPaddingCntZERO(byte[] endBlock) {
