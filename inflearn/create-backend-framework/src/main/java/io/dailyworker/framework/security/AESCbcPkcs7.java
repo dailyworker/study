@@ -15,11 +15,11 @@ public class AESCbcPkcs7 implements Crypt {
     }
 
     @Override
-    public byte[] encrypt(byte[] planByte) throws Exception {
+    public byte[] encrypt(byte[] plainByte) throws Exception {
         Cipher encrypter = Cipher.getInstance("AES/CBC/PKCS5Padding");
         encrypter.init(1, keySpec, ivSpec);
 
-        return encrypter.doFinal(planByte);
+        return encrypter.doFinal(plainByte);
     }
 
     @Override

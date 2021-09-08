@@ -18,20 +18,20 @@ public class ARIACbcPkcs7 implements Crypt {
     }
 
     @Override
-    public byte[] encrypt(byte[] planByte) throws Exception {
-        if(planByte == null) {
+    public byte[] encrypt(byte[] plainByte) throws Exception {
+        if(plainByte == null) {
             return null;
         }
 
-        if(planByte.length == 0) {
-             return planByte;
+        if(plainByte.length == 0) {
+             return plainByte;
         }
 
         byte[] cbcBlock = new byte[BLOCK_LENGTH];
-        int encryptLength = (planByte.length / BLOCK_LENGTH) * BLOCK_LENGTH + BLOCK_LENGTH;
+        int encryptLength = (plainByte.length / BLOCK_LENGTH) * BLOCK_LENGTH + BLOCK_LENGTH;
 
         byte[] encrypted = new byte[encryptLength];
-        int padding = encrypted.length - planByte.length;
+        int padding = encrypted.length - plainByte.length;
 
         System.arraycopy(this.iv, 0, cbcBlock, 0, BLOCK_LENGTH);
 
@@ -42,11 +42,11 @@ public class ARIACbcPkcs7 implements Crypt {
             byte[] encryptedBlock = new byte[BLOCK_LENGTH];
 
             int length = BLOCK_LENGTH;
-            if (planByte.length < length + srcPos) {
+            if (plainByte.length < length + srcPos) {
                 length = BLOCK_LENGTH - padding;
             }
 
-            System.arraycopy(planByte, srcPos, encryptedBlock, 0, length);
+            System.arraycopy(plainByte, srcPos, encryptedBlock, 0, length);
 
             for (int j = length; j < BLOCK_LENGTH; j++) {
                 encrypted[j] = (byte) padding;
@@ -96,36 +96,37 @@ public class ARIACbcPkcs7 implements Crypt {
         }
 
         byte[] cbcBlock = new byte[BLOCK_LENGTH];
-        byte[] planByteByte = new byte[encryptedBytes.length];
+        byte[] plainByte = new byte[encryptedBytes.length];
 
         System.arraycopy(this.iv, 0, cbcBlock, 0, BLOCK_LENGTH);
 
         int iteratorCount = encryptedBytes.length / BLOCK_LENGTH;
         int srcPos = 0;
 
-        byte[] planByteBlock = null;
+        byte[] plainByteBlock = null;
 
         for(int i = 0; i <  iteratorCount; i++) {
             byte[] encryptBlock = new byte[BLOCK_LENGTH];
             System.arraycopy(encryptedBytes, srcPos, encryptBlock, 0, BLOCK_LENGTH);
 
-            planByteBlock = ariaEngine.decrypt(encryptBlock, 0);
-            xor16ToX(planByteBlock, cbcBlock);
+            plainByteBlock = ariaEngine.decrypt(encryptBlock, 0);
+            xor16ToX(plainByteBlock, cbcBlock);
 
-            System.arraycopy(planByteBlock, 0, planByteByte, srcPos, BLOCK_LENGTH);
+            System.arraycopy(plainByteBlock, 0, plainByte, srcPos, BLOCK_LENGTH);
 
             cbcBlock = encryptBlock;
             srcPos = srcPos + encryptBlock.length;
         }
 
-        int paddingCntPKCS7 = getPaddingCntPKCS7(planByteBlock);
+        assert plainByteBlock != null;
+        int paddingCntPKCS7 = getPaddingCntPKCS7(plainByteBlock);
         if (paddingCntPKCS7 == 0) {
-            return planByteByte;
+            return plainByte;
         }
 
-        byte[] newplanByteText = new byte[planByteByte.length - paddingCntPKCS7];
-        System.arraycopy(planByteByte, 0, newplanByteText, 0, newplanByteText.length);
-        return newplanByteText;
+        byte[] newPlainByte = new byte[plainByte.length - paddingCntPKCS7];
+        System.arraycopy(plainByte, 0, newPlainByte, 0, newPlainByte.length);
+        return newPlainByte;
     }
 
     private void xor16ToX(byte[] x, byte[] y) {

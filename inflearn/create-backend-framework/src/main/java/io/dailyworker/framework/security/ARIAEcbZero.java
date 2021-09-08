@@ -13,24 +13,24 @@ public class ARIAEcbZero implements Crypt {
     }
 
     @Override
-    public byte[] encrypt(byte[] planByte) throws Exception {
-        if (planByte == null) {
+    public byte[] encrypt(byte[] plainByte) throws Exception {
+        if (plainByte == null) {
             return null;
         }
 
-        if (planByte.length == 0) {
-            return planByte;
+        if (plainByte.length == 0) {
+            return plainByte;
         }
 
-        int encLength = planByte.length;
+        int encLength = plainByte.length;
 
-        if (planByte.length % BLOCK_LENGTH != 0) {
-            encLength = (planByte.length / BLOCK_LENGTH) * BLOCK_LENGTH + BLOCK_LENGTH;
+        if (plainByte.length % BLOCK_LENGTH != 0) {
+            encLength = (plainByte.length / BLOCK_LENGTH) * BLOCK_LENGTH + BLOCK_LENGTH;
         }
 
         byte[] enc = new byte[encLength];
 
-        int nPad = enc.length - planByte.length;
+        int nPad = enc.length - plainByte.length;
 
         int forCnt = enc.length / BLOCK_LENGTH;
 
@@ -41,11 +41,11 @@ public class ARIAEcbZero implements Crypt {
             byte[] encBlock = new byte[BLOCK_LENGTH];
 
             int length = BLOCK_LENGTH;
-            if (planByte.length < length + srcPos) {
+            if (plainByte.length < length + srcPos) {
                 length = BLOCK_LENGTH - nPad;
             }
 
-            System.arraycopy(planByte, srcPos, encBlock, 0, length);
+            System.arraycopy(plainByte, srcPos, encBlock, 0, length);
 
             for (int ii = length; ii < BLOCK_LENGTH; ii++) {
                 encBlock[ii] = (byte) 0;
