@@ -6,6 +6,7 @@ import io.dailyworker.framework.controller.BizController;
 import io.dailyworker.framework.controller.CustomRequestContext;
 import io.dailyworker.framework.controller.MasterController;
 import io.dailyworker.framework.db.Table;
+import io.dailyworker.framework.security.CryptPin;
 
 import java.sql.SQLException;
 
@@ -15,6 +16,7 @@ public class Login implements BizController {
 
         String id = customRequest.getString("ID");
         String pin = customRequest.getString("PIN");
+        pin = CryptPin.cryptPin(pin, id);
 
         LoginDao loginDao = LoginDao.getLoginDao();
 
