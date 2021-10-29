@@ -1,0 +1,13 @@
+# Artillery 스트레스 테스트 스크립트 (cpu-test.yaml)
+config:
+  target: "http://34.64.218.82"
+  phases:
+    - duration: 60
+      arrivalRate: 1
+      name: Warm up
+scenarios:
+  # We define one scenario:
+  - name: "just get hash"
+    flow:
+      - get:
+          url: "/hash/123"
