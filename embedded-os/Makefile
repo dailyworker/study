@@ -26,10 +26,10 @@ clean:
 	@rm -fr build
 
 run: $(navlios)
-	qemu-system-arm -M realview-pb-a8 -kernal $(navlios)
+	qemu-system-arm -M realview-pb-a8 -kernel $(navlios)
 
 debug: $(navlios)
-	qemu-system-arm -M realview-pb-a8 -kernal $(navlios) -S -gdb tcp::1234,ipv4
+	qemu-system-arm -M realview-pb-a8 -kernel $(navlios) -S -gdb tcp::1234,ipv4
 
 gdb:
 	arm-none-eabi-gdb
@@ -39,6 +39,6 @@ $(navlios): $(ASM_OBJS) $(LINKER_SCRIPT)
 	$(OD) -O binary $(navlios) $(navlios_bin)
 # *.S 파일을 .o로 컴파일 
 build/%.o: boot/%.S 
-	mkdir -p $(shell driname $@)
+	mkdir -p $(shell dirname $@)
 	$(AS) -march=$(ARCH) -mcpu=$(MCPU) -g -o $@ $<
 
