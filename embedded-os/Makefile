@@ -36,7 +36,7 @@ gdb:
 # 링커를 통한 실행파일 생성 부분
 $(navlios): $(ASM_OBJS) $(LINKER_SCRIPT)
 	$(LD) -n -T $(LINKER_SCRIPT) -o $(navlios) $(ASM_OBJS)
-	$(OD) -O binary $(navlios) $(navlios_bin)
+	$(OC) -O binary $(navlios) $(navlios_bin)
 # *.S 파일을 .o로 컴파일 
 build/%.o: boot/%.S 
 	mkdir -p $(shell dirname $@)
