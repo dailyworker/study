@@ -24,10 +24,43 @@
 
 	vector_end:
 	
-	reset_handler:
-		LDR		R0, =0x10000000
-		LDR		R1, [R0]
-	
+	reset_handler: ; 각 모드별 스택 초기화
+		MRS r0, cpsr
+		BIC r1, r0, #0x1F
+		ORR r1, r1, #ARM_MODE_BIT_SVC
+		MSR cpsr, r1
+		LDR sp, =SVC_STACK_TOP
+
+		MRS r0, cpsr
+		BIC r1, r0, #0x1F
+		ORR r1, r1, #ARM_MODE_BIT_IRQ
+		MSR cpsr, r1
+		LDR sp, =IRQ_STACK_TOP
+
+		MRS r0, cpsr
+		BIC r1, r0, #0x1F
+		ORR r1, r1, #ARM_MODE_BIT_FIQ
+		MSR cpsr, r1
+		LDR sp, =FIQ_STACK_TOP
+
+		MRS r0, cpsr
+		BIC r1, r0, #0x1F
+		ORR r1, r1, #ARM_MODE_BIT_ABT
+		MSR cpsr, r1
+		LDR sp, =ABT_STACK_TOP
+
+		MRS r0, cpsr
+		BIC r1, r0, #0x1F
+		ORR r1, r1, #ARM_MODE_BIT_UND
+		MSR cpsr, r1
+		LDR sp, =UND_STACK_TOP
+
+		MRS r0, cpsr
+		BIC r1, r0, #0x1F
+		ORR r1, r1, #ARM_MODE_BIT_SYS
+		MSR cpsr, r1
+		LDR sp, =USRSYS_STACK_TOP
+		
 	dummy_handler:
 		B		.
 .end
