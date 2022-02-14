@@ -14,7 +14,7 @@
 		LDR 	PC, irq_handler_addr
 		LDR		PC, fiq_handler_addr
 
-		reset_handler_addr:			.word rest_handler
+		reset_handler_addr:			.word reset_handler
 		undef_handler_addr:			.word dummy_handler
 		svc_handler_addr:				.word dummy_handler
 		pftch_abt_handler_addr: .word dummy_handler
