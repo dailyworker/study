@@ -48,7 +48,7 @@ $(navlios): $(ASM_OBJS) $(C_OBJS) $(LINKER_SCRIPT)
 # *.S 파일을 .o로 컴파일 
 build/%.o: $(C_SRCS)
 	mkdir -p $(shell dirname $@)
-	$(CC) -march=$(ARCH) -mcpu=$(MCPU) -I $(INC_DIRS) -c -g -o $@ $<
+	$(CC) -march=$(ARCH) -mcpu=$(MCPU) $(INC_DIRS) -c -g -o $@ $<
 
 build/%.os: $(ASM_SRCS)
 	mkdir -p $(shell dirname $@)
