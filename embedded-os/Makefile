@@ -13,6 +13,10 @@ ASM_SRCS = $(wildcard boot/*.S)
 # 확장자.S를 .o로 바꾼다음에 디렉터리도 build로 만들어 ASM_OBJ변수에 저장
 # 실제 오브젝트 파일로 생성하는 부분은 아래에서 수행
 ASM_OBJS = $(patsubst boot/%.S, build/%.o, $(ASM_SRCS)) 
+
+# include 파일 정보
+INC_DIRS = include
+
 # 최종 ELF 파일 이름과 바이너리 파일 이름 
 navlios = build/navlios.axf
 navlios_bin = build/navlios.bin
@@ -40,5 +44,5 @@ $(navlios): $(ASM_OBJS) $(LINKER_SCRIPT)
 # *.S 파일을 .o로 컴파일 
 build/%.o: boot/%.S 
 	mkdir -p $(shell dirname $@)
-	$(AS) -march=$(ARCH) -mcpu=$(MCPU) -g -o $@ $<
+	$(AS) -march=$(ARCH) -mcpu=$(MCPU) -I $(INC_DIRS) -g -o $@ $<
 
