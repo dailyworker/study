@@ -1,6 +1,7 @@
-# RealViewPB의 아키텍처와 CPU 정보
+# RealViewPB의 아키텍처와 CPU 정보 및 타겟 보드 정보
 ARCH = armv7-a
 MCPU = cortex-a8
+TARGET = rvpb 
 # 툴체인 상수화 
 CC = arm-none-eabi-gcc
 AS = arm-none-eabi-as
@@ -15,11 +16,19 @@ ASM_SRCS = $(wildcard boot/*.S)
 # 실제 오브젝트 파일로 생성하는 부분은 아래에서 수행
 ASM_OBJS = $(patsubst boot/%.S, build/%.os, $(ASM_SRCS)) 
 
-C_SRCS = $(wildcard boot/*.c)
+VPATH = boot \
+				hal/$(TARGET)
+
+C_SRCS = $(notedir $(wildcard boot/*.c))
+C_SRCS += $(notedir $(wildcard hal/$(TARGET)/*.c))
 C_OBJS = $(patsubst boot/%.c, build/%.o, $(C_SRCS))
 
 # include 파일 정보
-INC_DIRS = -I include
+INC_DIRS = -I include \
+					 -I hal			\
+					 -I hal/$(TARGET)
+
+CFLAGS = -c -g -std=c11
 
 # 최종 ELF 파일 이름과 바이너리 파일 이름 
 navlios = build/navlios.axf
@@ -34,22 +43,24 @@ clean:
 	@rm -fr build
 
 run: $(navlios)
-	qemu-system-arm -M realview-pb-a8 -kernel $(navlios)
+	qemu-system-arm -M realview-pb-a8 -kernel $(navlios) -nographic
 
 debug: $(navlios)
 	qemu-system-arm -M realview-pb-a8 -kernel $(navlios) -S -gdb tcp::1234,ipv4
 
 gdb:
 	arm-none-eabi-gdb
+
 # 링커를 통한 실행파일 생성 부분
 $(navlios): $(ASM_OBJS) $(C_OBJS) $(LINKER_SCRIPT)
 	$(LD) -n -T $(LINKER_SCRIPT) -o $(navlios) $(ASM_OBJS) $(C_OBJS) -Map=$(MAP_FILE)
 	$(OC) -O binary $(navlios) $(navlios_bin)
+
 # *.S 파일을 .o로 컴파일 
 build/%.o: $(C_SRCS)
 	mkdir -p $(shell dirname $@)
-	$(CC) -march=$(ARCH) -mcpu=$(MCPU) $(INC_DIRS) -c -g -o $@ $<
+	$(CC) -march=$(ARCH) -mcpu=$(MCPU) $(INC_DIRS) $(CFLAGS) -o $@ $<
 
 build/%.os: $(ASM_SRCS)
 	mkdir -p $(shell dirname $@)
-	$(CC) -march=$(ARCH) -mcpu=$(MCPU) $(INC_DIRS) -c -g -o $@ $<
+	$(CC) -march=$(ARCH) -mcpu=$(MCPU) $(INC_DIRS) $(CFLAGS) -o $@ $<
