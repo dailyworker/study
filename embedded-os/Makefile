@@ -1,7 +1,9 @@
 # RealViewPB의 아키텍처와 CPU 정보 및 타겟 보드 정보
 ARCH = armv7-a
 MCPU = cortex-a8
+
 TARGET = rvpb 
+
 # 툴체인 상수화 
 CC = arm-none-eabi-gcc
 AS = arm-none-eabi-as
@@ -57,10 +59,10 @@ $(navlios): $(ASM_OBJS) $(C_OBJS) $(LINKER_SCRIPT)
 	$(OC) -O binary $(navlios) $(navlios_bin)
 
 # *.S 파일을 .o로 컴파일 
-build/%.o: $(C_SRCS)
+build/%.o: %.c
 	mkdir -p $(shell dirname $@)
 	$(CC) -march=$(ARCH) -mcpu=$(MCPU) $(INC_DIRS) $(CFLAGS) -o $@ $<
 
-build/%.os: $(ASM_SRCS)
+build/%.os: %.S
 	mkdir -p $(shell dirname $@)
 	$(CC) -march=$(ARCH) -mcpu=$(MCPU) $(INC_DIRS) $(CFLAGS) -o $@ $<
