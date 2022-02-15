@@ -19,16 +19,16 @@ ASM_SRCS = $(wildcard boot/*.S)
 ASM_OBJS = $(patsubst boot/%.S, build/%.os, $(ASM_SRCS)) 
 
 VPATH = boot \
-				hal/$(TARGET)
+        hal/$(TARGET)
 
-C_SRCS = $(notedir $(wildcard boot/*.c))
-C_SRCS += $(notedir $(wildcard hal/$(TARGET)/*.c))
-C_OBJS = $(patsubst boot/%.c, build/%.o, $(C_SRCS))
+C_SRCS = $(notdir $(wildcard boot/*.c))
+C_SRCS += $(notdir $(wildcard hal/$(TARGET)/*.c))
+C_OBJS = $(patsubst %.c, build/%.o, $(C_SRCS))
 
 # include 파일 정보
-INC_DIRS = -I include \
-					 -I hal			\
-					 -I hal/$(TARGET)
+INC_DIRS  = -I include 			\
+            -I hal	   			\
+            -I hal/$(TARGET)
 
 CFLAGS = -c -g -std=c11
 
