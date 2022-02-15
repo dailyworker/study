@@ -26,15 +26,15 @@ C_SRCS += $(notdir $(wildcard hal/$(TARGET)/*.c))
 C_OBJS = $(patsubst %.c, build/%.o, $(C_SRCS))
 
 # include 파일 정보
-INC_DIRS  = -I include 			\
-            -I hal	   			\
-            -I hal/$(TARGET)
+INC_DIRS = -I include \
+					-I hal \
+					-I hal/$(TARGET)
 
 CFLAGS = -c -g -std=c11
 
 # 최종 ELF 파일 이름과 바이너리 파일 이름 
-navlios = build/navlios.axf
-navlios_bin = build/navlios.bin
+navlios = build/navilos.axf
+navlios_bin = build/navilos.bin
 # node.js의 package.json의 script와 같이 어떤 명령을 받는지 명시
 # all : , clean : 은 PHONY에 명시된 명령에 대한 처리를 담당
 .PHONY: all clean run debug gdb
@@ -58,11 +58,11 @@ $(navlios): $(ASM_OBJS) $(C_OBJS) $(LINKER_SCRIPT)
 	$(LD) -n -T $(LINKER_SCRIPT) -o $(navlios) $(ASM_OBJS) $(C_OBJS) -Map=$(MAP_FILE)
 	$(OC) -O binary $(navlios) $(navlios_bin)
 
-# *.S 파일을 .o로 컴파일 
-build/%.o: %.c
+build/%.os: %.S
 	mkdir -p $(shell dirname $@)
 	$(CC) -march=$(ARCH) -mcpu=$(MCPU) $(INC_DIRS) $(CFLAGS) -o $@ $<
 
-build/%.os: %.S
+# *.S 파일을 .o로 컴파일 
+build/%.o: %.c
 	mkdir -p $(shell dirname $@)
 	$(CC) -march=$(ARCH) -mcpu=$(MCPU) $(INC_DIRS) $(CFLAGS) -o $@ $<
