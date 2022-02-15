@@ -1,4 +1,5 @@
 #include "stdint.h"
+
 #include "HalUart.h"
 
 static void Hw_init(void);
