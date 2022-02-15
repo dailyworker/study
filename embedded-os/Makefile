@@ -33,8 +33,8 @@ INC_DIRS = -I include \
 CFLAGS = -c -g -std=c11
 
 # 최종 ELF 파일 이름과 바이너리 파일 이름 
-navlios = build/navilos.axf
-navlios_bin = build/navilos.bin
+navlios = build/navlios.axf
+navlios_bin = build/navlios.bin
 # node.js의 package.json의 script와 같이 어떤 명령을 받는지 명시
 # all : , clean : 은 PHONY에 명시된 명령에 대한 처리를 담당
 .PHONY: all clean run debug gdb
