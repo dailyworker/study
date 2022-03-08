@@ -9,11 +9,19 @@ public class Ship {
     private String name;
     private String logo;
     private String color;
-    private Anchor ancor;
+    private Anchor anchor;
     private Wheel wheel;
 
     public String getName() {
         return name;
+    }
+
+    public Anchor getAnchor() {
+        return anchor;
+    }
+
+    public Wheel getWheel() {
+        return wheel;
     }
 
     public void setName(String name) {
@@ -29,7 +37,7 @@ public class Ship {
     }
 
     public void setAnchor(Anchor anchor) {
-        this.ancor = anchor;
+        this.anchor = anchor;
     }
 
     public void setWheel(Wheel wheel) {
