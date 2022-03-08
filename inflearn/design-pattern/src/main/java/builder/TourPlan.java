@@ -16,12 +16,13 @@ public class TourPlan {
 
     }
 
-    public TourPlan(String title, int nights, int days, LocalDate startAt, String whereToStay) {
+    public TourPlan(String title, int nights, int days, LocalDate startAt, String whereToStay, List<DetailPlan> plans) {
         this.title = title;
         this.nights = nights;
         this.days = days;
         this.startAt = startAt;
         this.whereToStay = whereToStay;
+        this.plans = plans;
     }
 
     public void addPlan(int day, String plan) {
@@ -74,5 +75,17 @@ public class TourPlan {
 
     public void setPlans(List<DetailPlan> plans) {
         this.plans = plans;
+    }
+
+    @Override
+    public String toString() {
+        return "TourPlan{" +
+                "title='" + title + '\'' +
+                ", nights=" + nights +
+                ", days=" + days +
+                ", startAt=" + startAt +
+                ", whereToStay='" + whereToStay + '\'' +
+                ", plans=" + plans +
+                '}';
     }
 }

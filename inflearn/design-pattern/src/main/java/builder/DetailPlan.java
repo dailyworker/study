@@ -24,4 +24,12 @@ public class DetailPlan {
     public void setPlan(String plan) {
         this.plan = plan;
     }
+
+    @Override
+    public String toString() {
+        return "DetailPlan{" +
+                "day=" + day +
+                ", plan='" + plan + '\'' +
+                '}';
+    }
 }
