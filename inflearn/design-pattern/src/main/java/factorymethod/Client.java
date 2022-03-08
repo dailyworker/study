@@ -3,12 +3,11 @@ package factorymethod;
 public class Client {
     public static void main(String[] args) {
         Client client = new Client();
+        client.print(new WhiteShipFactory(), "WhiteShip", "workingssu@gmail.com");
+        client.print(new BlackShipFactory(), "BlackShip", "workingssu@gmail.com");
+    }
 
-        Ship whiteShip = new WhiteShipFactory().orderShip("WhiteShip", "workingssu@gmail.com");
-        System.out.println(whiteShip.toString());
-
-        Ship blackShip = new BlackShipFactory().orderShip("blackShip", "workingssu@gmail.com");
-        System.out.println(blackShip.toString());
-
+    private void print(ShipFactory shipFactory, String name, String email) {
+        System.out.println(shipFactory.orderShip(name, email));
     }
 }
