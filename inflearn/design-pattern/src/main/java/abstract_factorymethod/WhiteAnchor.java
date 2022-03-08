@@ -1,4 +1,4 @@
 package abstract_factorymethod;
 
-public class WhiteAnchor {
+public class WhiteAnchor implements Anchor {
 }

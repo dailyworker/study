@@ -1,4 +1,4 @@
 package abstract_factorymethod;
 
-public class WhiteWheel {
+public class WhiteWheel implements Wheel {
 }
