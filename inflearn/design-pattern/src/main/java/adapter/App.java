@@ -1,7 +1,6 @@
 package adapter;
 
 import adapter.security.LoginHandler;
-import adapter.security.UserDetailsService;
 
 public class App {
     public static void main(String[] args) {
