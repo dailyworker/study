@@ -1,6 +1,8 @@
 package adapter;
 
-public class Account {
+import adapter.security.UserDetails;
+
+public class Account implements UserDetails {
 
     private String name;
 
@@ -30,5 +32,10 @@ public class Account {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    @Override
+    public String getUsername() {
+        return this.getName();
     }
 }
