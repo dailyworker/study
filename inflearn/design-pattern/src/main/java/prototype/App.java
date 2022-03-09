@@ -1,7 +1,7 @@
 package prototype;
 
 public class App {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws CloneNotSupportedException {
         GithubRepository repository = new GithubRepository();
         repository.setUser("whiteship");
         repository.setName("live-study");
@@ -13,12 +13,13 @@ public class App {
         String url = githubIssue.getUrl();
         System.out.println(url);
 
-        // 아래와 같이 처리되는 게 아니라 위의 객체를 클론해서 사용하고자함.
-//        GithubIssue githubIssue2 = new GithubIssue(repository);
-        //TODO : clone != githubIssue
-        //TODO : clone.eqauls(githubIssue) => true
-        //GithubIssue clone = githubIssue.clone();
-//        githubIssue.setId(2);
-//        githubIssue.setTitle("2주차 과제");
+        GithubIssue clone = (GithubIssue) githubIssue.clone();
+        System.out.println(clone.getUrl());
+        System.out.println(clone != githubIssue);
+        System.out.println(clone.equals(githubIssue));
+        System.out.println(clone.getClass() == githubIssue.getClass());
+        // 얕은복사 (기존에 있던 레퍼런스를 참조하기 때문에 Repository가 변경되면 clone도 영향을 받음)
+        System.out.println(clone.getGithubRepository() == githubIssue.getGithubRepository());
+
     }
 }
