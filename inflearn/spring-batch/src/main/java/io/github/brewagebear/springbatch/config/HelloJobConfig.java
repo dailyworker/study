@@ -1,4 +1,4 @@
-package config;
+package io.github.brewagebear.springbatch.config;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.batch.core.Job;
