@@ -25,7 +25,7 @@ spring:
       username: root
       password: root
   batch:
-    job:
-      enabled: false
+#    job:
+#      enabled: false
     jdbc:
       initialize-schema: always

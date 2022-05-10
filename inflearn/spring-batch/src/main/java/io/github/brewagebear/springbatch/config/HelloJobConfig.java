@@ -27,6 +27,7 @@ public class HelloJobConfig {
         return jobBuilderFactory.get("helloJob")
             .start(helloStep1())
             .next(helloStep2())
+            .next(helloStep3())
             .build();
     }
 
@@ -70,6 +71,24 @@ public class HelloJobConfig {
 
                     System.out.println("========================");
                     System.out.println(" >> Step2 was executed");
+                    System.out.println("========================");
+
+                    return RepeatStatus.FINISHED;
+                }
+            })
+            .build();
+    }
+
+    @Bean
+    public Step helloStep3() {
+        return stepBuilderFactory.get("helloStep3")
+            .tasklet(new Tasklet() {
+                @Override
+                public RepeatStatus execute(StepContribution contribution,
+                    ChunkContext chunkContext) throws Exception {
+
+                    System.out.println("========================");
+                    System.out.println(" >> Step3 was executed");
                     System.out.println("========================");
 
                     return RepeatStatus.FINISHED;
