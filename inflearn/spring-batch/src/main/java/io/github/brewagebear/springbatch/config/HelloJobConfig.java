@@ -4,6 +4,7 @@ import io.github.brewagebear.springbatch.context.ExecutionContextTasklet1;
 import io.github.brewagebear.springbatch.context.ExecutionContextTasklet2;
 import io.github.brewagebear.springbatch.context.ExecutionContextTasklet3;
 import io.github.brewagebear.springbatch.context.ExecutionContextTasklet4;
+import io.github.brewagebear.springbatch.listener.JobRepositoryListener;
 import lombok.RequiredArgsConstructor;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
@@ -28,6 +29,8 @@ public class HelloJobConfig {
 
     private final ExecutionContextTasklet4 executionContextTasklet4;
 
+    private final JobRepositoryListener listener;
+
     @Bean
     public Job helloJob() {
         return jobBuilderFactory.get("helloJob")
@@ -35,6 +38,7 @@ public class HelloJobConfig {
             .next(helloStep2())
             .next(helloStep3())
             .next(helloStep4())
+            .listener(listener)
             .build();
     }
 
