@@ -44,6 +44,8 @@ public class ExecutionContextTasklet1 implements Tasklet {
         System.out.println("jobName : " + jobExecutionContext.get("jobName"));
         System.out.println("stepName : " + stepExecutionContext.get("stepName"));
 
+        Thread.sleep(3000);
+
         return RepeatStatus.FINISHED;
     }
 }
