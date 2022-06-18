@@ -21,47 +21,47 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class JobLauncherController {
 
-    private final Job job;
-
-    private final JobLauncher jobLauncher;
-
-    private final BasicBatchConfigurer basicBatchConfigurer;
-
-    public JobLauncherController(Job job, JobLauncher jobLauncher,
-        BasicBatchConfigurer basicBatchConfigurer) {
-        this.job = job;
-        this.jobLauncher = jobLauncher;
-        this.basicBatchConfigurer = basicBatchConfigurer;
-    }
-
-    @PostMapping("/batch")
-    public String launch(@RequestBody Member member)
-        throws JobInstanceAlreadyCompleteException, JobExecutionAlreadyRunningException, JobParametersInvalidException, JobRestartException {
-
-        JobParameters jobParameters = new JobParametersBuilder()
-            .addString("id", member.getId())
-            .addDate("date", new Date())
-            .toJobParameters();
-
-        jobLauncher.run(job, jobParameters);
-
-        return "Batch Completed";
-    }
-
-    @PostMapping("/batch-async")
-    public String launch(@RequestBody Item item)
-        throws JobInstanceAlreadyCompleteException, JobExecutionAlreadyRunningException, JobParametersInvalidException, JobRestartException {
-
-        JobParameters jobParameters = new JobParametersBuilder()
-            .addString("id", item.getId())
-            .addDate("date", new Date())
-            .toJobParameters();
-
-        SimpleJobLauncher jobLauncher = (SimpleJobLauncher)basicBatchConfigurer.getJobLauncher();
-        // SimpleJobLauncher jobLauncher = (SimpleJobLauncher)simpleJobLauncher; -> Proxy로 세팅되어있기 때문에 직접접근 X
-        jobLauncher.setTaskExecutor(new SimpleAsyncTaskExecutor());
-        jobLauncher.run(job, jobParameters);
-
-        return "Batch Completed";
-    }
+//    private final Job job;
+//
+//    private final JobLauncher jobLauncher;
+//
+//    private final BasicBatchConfigurer basicBatchConfigurer;
+//
+//    public JobLauncherController(Job job, JobLauncher jobLauncher,
+//        BasicBatchConfigurer basicBatchConfigurer) {
+//        this.job = job;
+//        this.jobLauncher = jobLauncher;
+//        this.basicBatchConfigurer = basicBatchConfigurer;
+//    }
+//
+//    @PostMapping("/batch")
+//    public String launch(@RequestBody Member member)
+//        throws JobInstanceAlreadyCompleteException, JobExecutionAlreadyRunningException, JobParametersInvalidException, JobRestartException {
+//
+//        JobParameters jobParameters = new JobParametersBuilder()
+//            .addString("id", member.getId())
+//            .addDate("date", new Date())
+//            .toJobParameters();
+//
+//        jobLauncher.run(job, jobParameters);
+//
+//        return "Batch Completed";
+//    }
+//
+//    @PostMapping("/batch-async")
+//    public String launch(@RequestBody Item item)
+//        throws JobInstanceAlreadyCompleteException, JobExecutionAlreadyRunningException, JobParametersInvalidException, JobRestartException {
+//
+//        JobParameters jobParameters = new JobParametersBuilder()
+//            .addString("id", item.getId())
+//            .addDate("date", new Date())
+//            .toJobParameters();
+//
+//        SimpleJobLauncher jobLauncher = (SimpleJobLauncher)basicBatchConfigurer.getJobLauncher();
+//        // SimpleJobLauncher jobLauncher = (SimpleJobLauncher)simpleJobLauncher; -> Proxy로 세팅되어있기 때문에 직접접근 X
+//        jobLauncher.setTaskExecutor(new SimpleAsyncTaskExecutor());
+//        jobLauncher.run(job, jobParameters);
+//
+//        return "Batch Completed";
+//    }
 }

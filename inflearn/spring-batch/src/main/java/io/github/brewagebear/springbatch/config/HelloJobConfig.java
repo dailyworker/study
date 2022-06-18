@@ -10,6 +10,8 @@ import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
+import org.springframework.batch.core.job.builder.FlowBuilder;
+import org.springframework.batch.core.job.flow.Flow;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -43,6 +45,15 @@ public class HelloJobConfig {
     }
 
     @Bean
+    public Job helloFlow() {
+        return jobBuilderFactory.get("helloFlow")
+            .start(flow())
+            .next(helloStep5())
+            .end()
+            .build();
+    }
+
+    @Bean
     public Step helloStep1() {
         return stepBuilderFactory.get("helloStep1")
             .tasklet(executionContextTasklet1)
@@ -70,4 +81,20 @@ public class HelloJobConfig {
             .build();
     }
 
+    @Bean
+    public Step helloStep5() {
+        return stepBuilderFactory.get("helloStep5")
+            .tasklet(executionContextTasklet4)
+            .build();
+    }
+
+    @Bean
+    public Flow flow() {
+        FlowBuilder<Flow> flowFlowBuilder = new FlowBuilder<>("Flow");
+        flowFlowBuilder.start(helloStep3())
+            .next(helloStep4())
+            .end();
+
+        return flowFlowBuilder.build();
+    }
 }
