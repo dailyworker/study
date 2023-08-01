@@ -1,0 +1,49 @@
+### 1. 주문 등록
+POST http://{{host}}/api/v1/orders/init
+Content-Type: application/json
+
+{
+  "userId": 1,
+  "payMethod": "카카오_페이",
+  "receiverName": "곰",
+  "receiverPhone": "010-1234-1234",
+  "receiverZipcode": "123-345",
+  "receiverAddress1": "경기도 고양시 일산서구",
+  "receiverAddress2": "세마리아파트 101호,",
+  "etcMessage": "부재중 시 연락주세요",
+  "orderItemList": [
+    {
+      "orderCount": 1,
+      "itemToken": "itm_I9NzO0jkL1P7eD8b",
+      "itemName": "바지",
+      "itemPrice": 10000,
+      "orderItemOptionGroups": [
+        {
+          "ordering": 1,
+          "itemOptionGroupName": "사이즈",
+          "orderItemOptionList": [
+            {
+              "ordering": 1,
+              "itemOptionName": "XL",
+              "itemOptionPrice": 1500
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+
+### 2. 주문 조회
+GET http://{{host}}/api/v1/orders/ord_vS84VBeqkTlgBVqp
+
+### 3. 주문 결제
+POST http://{{host}}/api/v1/orders/payment-order
+Content-Type: application/json
+
+{
+  "orderToken": "ord_vS84VBeqkTlgBVqp",
+  "payMethod": "카카오_페이",
+  "amount": 11500,
+  "orderDescription" : "카카오페이를 통한 주문 결제"
+}

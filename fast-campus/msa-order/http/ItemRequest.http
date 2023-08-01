@@ -1,0 +1,52 @@
+### 1. 아이템 생성
+POST http://{{host}}/api/v1/items
+Content-Type: application/json
+
+{
+  "partnerToken": "ptn_XuzHxDHdvBfKkBD6",
+  "itemName": "바지",
+  "itemPrice": 10000,
+  "itemOptionGroupList": [
+    {
+      "ordering": 1,
+      "itemOptionGroupName" : "사이즈",
+      "itemOptionList" : [
+        {
+          "ordering": 1,
+          "itemOptionName": "XL",
+          "itemOptionPrice": 1500
+        },
+        {
+          "ordering": 2,
+          "itemOptionName": "L",
+          "itemOptionPrice": 1000
+        },
+        {
+          "ordering": 3,
+          "itemOptionName": "M",
+          "itemOptionPrice": 0
+        }
+      ]
+    }
+  ]
+}
+
+
+### 2. 아이템 상태 "판매중"으로 변경
+POST http://{{host}}/api/v1/items/change-on-sales
+Content-Type: application/json
+
+{
+  "itemToken": "itm_I9NzO0jkL1P7eD8b"
+}
+
+### 3. 아이템 상태 "준비중"으로 변경
+POST http://{{host}}/api/v1/items/change-end-of-sales
+Content-Type: application/json
+
+{
+  "itemToken": "{{default-item-token}}"
+}
+
+### 4. 아이템 정보 가져오기
+GET http://{{host}}/api/v1/items/{{default-item-token}}
